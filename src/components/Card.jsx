@@ -1,7 +1,7 @@
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import StarIcon from '@mui/icons-material/Star';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import {Button, Chip} from "@mui/material";
+import {Button, Chip, Stack} from "@mui/material";
 
 const cardStyle = {
     color: 'white',
@@ -45,9 +45,9 @@ const Card = ({repository}) => {
             <div style={cardStyle}>
                 <span style={numberForCard}>№ {id}</span>
                 <a href={`https://github.com/${owner}/${name}`}><Chip label={name} color="secondary" variant="contained" /></a>
-                <span style={childrenCard}><AccountBoxIcon /> {owner}</span>
-                <span style={childrenCard}><StarIcon /> {stars}</span>
-                <span style={childrenCard}><VisibilityIcon /> {watch}</span>
+                <Stack width="100%" alignItems="center" gap="1rem" justifyContent="space-between" flexDirection="row"><AccountBoxIcon /> {owner}</Stack>
+                <Stack width="100%" alignItems="center" gap="1rem" justifyContent="space-between" flexDirection="row"><StarIcon /> {stars}</Stack>
+                <Stack width="100%" alignItems="center" gap="1rem" justifyContent="space-between" flexDirection="row"><VisibilityIcon /> {watch}</Stack>
             </div>
         </>
     )
