@@ -10,7 +10,7 @@ const cardListStyle = {
 const CardList = ({repositories}) => {
     return (
         <>
-            <h1 style={{textAlign: "center", color: 'white'}}>Топ репозиториев(по звездам)</h1>
+            <h1 style={{textAlign: "center", color: 'white'}}>Рейтинг репозиториев</h1>
             <div style={cardListStyle}>
                 { repositories && repositories.map(repository => (
                     <Card repository={repository} key={repository.id} />
