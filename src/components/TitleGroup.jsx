@@ -1,48 +1,79 @@
-import {Button, TextField} from "@mui/material";
+import {Button, Drawer, IconButton, Stack, TextField, Tooltip} from "@mui/material";
 import updateAndSetRepositories from "../utils/updateAndSetRepositories";
 import {useEffect, useState} from "react";
 import getRepositoryById from "../utils/getRepositoryById";
 import getAndSetRepositories from "../utils/getAndSetRepositories";
+import SettingsIcon from '@mui/icons-material/Settings';
+import CloseIcon from '@mui/icons-material/Close';
 
 const titleGroupStyle = {
+    width: "min-content",
     display: 'flex',
-    flexDirection: 'row',
+    flexDirection: 'column',
     justifyContent: 'space-around',
-    alignItems: 'center'
+    alignItems: 'center',
+    background: "rgba(255, 255, 255, 0.4)",
+    borderRadius: "16px",
+    boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
+    backdropFilter: "blur(5.2px)",
+    border: "1px solid rgba(0, 0, 0, 0.24)",
+    padding: "1rem 2rem",
+    margin: "1rem 0 0 1rem",
 }
 
 const TitleGroup = ({serverUrl, setRepositories}) => {
     const [inputId, setInputId] = useState('');
-    // const [error, setError] = useState(null)
+    const [open, setOpen] = useState(false);
+
+    const toggleDrawer = (newOpen) => () => {
+        setOpen(newOpen);
+    };
 
     useEffect(() => {
-        // if (+inputId === 0) {
-        //     setError('Id не может быть 0!')
-        // }
-        // if (inputId.includes('.')) {
-        //     setError('Введите целое число!')
-        // }
-        // if (!Number.isInteger(+inputId)) {
-        //     setError('Id не может содержать буквы!')
-        // }
         if (Number.isInteger(+inputId) && !inputId.includes('.') && +inputId !== 0) {
-            // setError(null)
             getRepositoryById(serverUrl, inputId, setRepositories)
         } else {
             getAndSetRepositories(serverUrl, setRepositories)
         }
     }, [inputId])
     return (
-        <div style={titleGroupStyle}>
-            <h1 style={{textAlign: "center", color: 'white'}}>Топ репозиториев(по звездам)</h1>
-            <Button variant="contained" onClick={() => updateAndSetRepositories(serverUrl, setRepositories)}>Обновить</Button>
-            <Button variant="contained" onClick={() => setRepositories([])}>Удалить</Button>
-            <TextField id="outlined-basic"
-                       // label={error==null ? 'Введите id' : error }
-                       label="Введите id!"
-                       variant="outlined" onChange={(event) => setInputId(event.target.value)} />
+    <>
+        <Tooltip title="Нажмите, чтобы вызвать окно разработчика">
+            <Button onClick={toggleDrawer(true)} size="large" variant="contained" color="primary" sx={{width: "min-content"}}>
+                <SettingsIcon />
+            </Button>
+        </Tooltip>
+        <Drawer open={open} onClose={toggleDrawer(false)} style={{background: 'none'}}>
+            <div style={titleGroupStyle}>
+                <Stack gap="1rem" direction="row">
+                    <h2>Инструменты разработчика</h2>
+                    <Stack alignItems="center" justifyContent="center">
+                        <IconButton onClick={toggleDrawer(false)}>
+                            <CloseIcon />
+                        </IconButton>
+                    </Stack>
+                </Stack>
+                <Stack gap="1rem" direction="column">
+                    <TextField id="outlined-basic"
+                               label="Введите id!"
+                               type='number'
+                               width="70%"
+                               variant="filled" onChange={(event) => setInputId(event.target.value)} />
+                    <Stack gap="1rem" direction="row">
+                        <Button variant="contained" onClick={() => {
+                            updateAndSetRepositories(serverUrl, setRepositories)
+                            setOpen(false)
+                        }}>Обновить</Button>
+                        <Button variant="contained" onClick={() => {
+                            setRepositories([])
+                            setOpen(false)
+                        }}>Удалить</Button>
+                    </Stack>
+                </Stack>
+            </div>
+        </Drawer>
+    </>
 
-        </div>
     )
 }
 
