@@ -1,5 +1,4 @@
 import Card from "./Card";
-import {useEffect} from "react";
 
 const cardListStyle = {
     display: 'flex',
@@ -9,8 +8,6 @@ const cardListStyle = {
 }
 
 const CardList = ({repositories}) => {
-
-    useEffect(()=>{},[repositories])
     return (
         <div style={cardListStyle}>
             { repositories && repositories.map(repository => (

@@ -34,9 +34,9 @@ const TitleGroup = ({serverUrl, setRepositories}) => {
     }, [inputId])
     return (
         <div style={titleGroupStyle}>
-            <h1 style={{textAlign: "center"}}>Топ репозиториев(по звездам)</h1>
-            <Button variant="outlined" onClick={() => updateAndSetRepositories(serverUrl, setRepositories)}>Обновить</Button>
-            <Button variant="outlined" onClick={() => setRepositories([])}>Удалить</Button>
+            <h1 style={{textAlign: "center", color: 'white'}}>Топ репозиториев(по звездам)</h1>
+            <Button variant="contained" onClick={() => updateAndSetRepositories(serverUrl, setRepositories)}>Обновить</Button>
+            <Button variant="contained" onClick={() => setRepositories([])}>Удалить</Button>
             <TextField id="outlined-basic"
                        // label={error==null ? 'Введите id' : error }
                        label="Введите id!"

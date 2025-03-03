@@ -1,21 +1,55 @@
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import StarIcon from '@mui/icons-material/Star';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import {Button, Chip} from "@mui/material";
 
 const cardStyle = {
-    background: '#343434',
     color: 'white',
     padding: "12px 24px",
     margin: "1rem",
-    width: "20%",
+    width: "10%",
+    background: "rgba(255, 255, 255, 0.4)",
+    borderRadius: "16px",
+    boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
+    backdropFilter: "blur(5.2px)",
+    border: "1px solid rgba(0, 0, 0, 0.24)",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "space-between",
+    gap: "1rem"
+}
+
+const numberForCard = {
+    position: 'relative',
+    background: "#007cf3",
+    width: "50px",
+    height: "50px",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: "25px",
+    right: "42%",
+    rotate: "315deg"
+}
+
+const childrenCard = {
+    display: "flex",
+    alignItems: "center"
 }
 
 const Card = ({repository}) => {
-    const {name, owner, stars, watch} = repository
+    const {id, name, owner, stars, watch} = repository
     return (
-        <div style={cardStyle}>
-            <h3>Наименование: {name}</h3>
-            <h3>Владелец: {owner}</h3>
-            <h4>Кол-во звезд: {stars}</h4>
-            <h4>Кол-во просмотров: {watch}</h4>
-        </div>
+        <>
+            <div style={cardStyle}>
+                <span style={numberForCard}>№ {id}</span>
+                <a href={`https://github.com/${owner}/${name}`}><Chip label={name} color="secondary" variant="contained" /></a>
+                <span style={childrenCard}><AccountBoxIcon /> {owner}</span>
+                <span style={childrenCard}><StarIcon /> {stars}</span>
+                <span style={childrenCard}><VisibilityIcon /> {watch}</span>
+            </div>
+        </>
     )
 }
 
