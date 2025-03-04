@@ -1,7 +1,7 @@
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import StarIcon from '@mui/icons-material/Star';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import {Button, Chip, Stack, Tooltip} from "@mui/material";
+import {Chip, Stack, Tooltip} from "@mui/material";
 import React from "react";
 
 const cardStyle = {
@@ -32,11 +32,6 @@ const numberForCard = {
     borderRadius: "25px",
     right: "42%",
     rotate: "315deg"
-}
-
-const childrenCard = {
-    display: "flex",
-    alignItems: "center"
 }
 
 const Card = ({repository}) => {

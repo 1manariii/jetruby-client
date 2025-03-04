@@ -1,10 +1,10 @@
 import {Button, Drawer, IconButton, Stack, TextField, Tooltip} from "@mui/material";
 import updateAndSetRepositories from "../utils/updateAndSetRepositories";
 import {useEffect, useState} from "react";
-import getRepositoryById from "../utils/getRepositoryById";
 import getAndSetRepositories from "../utils/getAndSetRepositories";
 import SettingsIcon from '@mui/icons-material/Settings';
 import CloseIcon from '@mui/icons-material/Close';
+import getRepositoryByIdOrName from "../utils/getRepositoryByIdOrName";
 
 const titleGroupStyle = {
     width: "min-content",
@@ -24,14 +24,14 @@ const titleGroupStyle = {
 const TitleGroup = ({serverUrl, setRepositories}) => {
     const [inputId, setInputId] = useState('');
     const [open, setOpen] = useState(false);
-
+    const [searchName, setSearchName] = useState('')
     const toggleDrawer = (newOpen) => () => {
         setOpen(newOpen);
     };
 
     useEffect(() => {
         if (Number.isInteger(+inputId) && !inputId.includes('.') && +inputId !== 0) {
-            getRepositoryById(serverUrl, inputId, setRepositories)
+            getRepositoryByIdOrName(serverUrl, inputId, null, setRepositories)
         } else {
             getAndSetRepositories(serverUrl, setRepositories)
         }
@@ -59,6 +59,14 @@ const TitleGroup = ({serverUrl, setRepositories}) => {
                                type='number'
                                width="70%"
                                variant="filled" onChange={(event) => setInputId(event.target.value)} />
+                    <Stack gap="1rem" direction="row">
+                        <TextField id="outlined-basic"
+                                   label="Введите наименование!"
+                                   type='search'
+                                   width="70%"
+                                   variant="filled" onChange={(event) => setSearchName(event.target.value)} />
+                        <Button variant="contained" onClick={() => getRepositoryByIdOrName(serverUrl, null, searchName, setRepositories)}>Найти</Button>
+                    </Stack>
                     <Stack gap="1rem" direction="row">
                         <Button variant="contained" onClick={() => {
                             updateAndSetRepositories(serverUrl, setRepositories)
