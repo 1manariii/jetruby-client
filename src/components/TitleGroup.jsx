@@ -5,6 +5,7 @@ import getAndSetRepositories from "../utils/getAndSetRepositories";
 import SettingsIcon from '@mui/icons-material/Settings';
 import CloseIcon from '@mui/icons-material/Close';
 import getRepositoryByIdOrName from "../utils/getRepositoryByIdOrName";
+import {idID} from "@mui/material/locale";
 
 const titleGroupStyle = {
     width: "min-content",
@@ -30,12 +31,17 @@ const TitleGroup = ({serverUrl, setRepositories}) => {
     };
 
     useEffect(() => {
-        if (Number.isInteger(+inputId) && !inputId.includes('.') && +inputId !== 0) {
+        if (inputId.length > 0) {
+            console.log(inputId.length)
             getRepositoryByIdOrName(serverUrl, inputId, null, setRepositories)
-        } else {
+        }
+        if (searchName.length > 0) {
+            getRepositoryByIdOrName(serverUrl, null, searchName, setRepositories)
+        }
+        if (searchName.length === 0 && inputId.length === 0) {
             getAndSetRepositories(serverUrl, setRepositories)
         }
-    }, [inputId])
+    }, [inputId, searchName])
     return (
     <>
         <Tooltip title="Нажмите, чтобы вызвать окно разработчика">
@@ -56,17 +62,22 @@ const TitleGroup = ({serverUrl, setRepositories}) => {
                 <Stack gap="1rem" direction="column">
                     <TextField id="outlined-basic"
                                label="Введите id!"
+                               value={inputId}
                                type='number'
                                width="70%"
-                               variant="filled" onChange={(event) => setInputId(event.target.value)} />
-                    <Stack gap="1rem" direction="row">
-                        <TextField id="outlined-basic"
-                                   label="Введите наименование!"
-                                   type='search'
-                                   width="70%"
-                                   variant="filled" onChange={(event) => setSearchName(event.target.value)} />
-                        <Button variant="contained" onClick={() => getRepositoryByIdOrName(serverUrl, null, searchName, setRepositories)}>Найти</Button>
-                    </Stack>
+                               variant="filled" onChange={(event) => {
+                                   setInputId(event.target.value)
+                                   setSearchName('')
+                               }} />
+                    <TextField id="outlined-basic"
+                               label="Введите наименование!"
+                               value={searchName}
+                               type='search'
+                               width="70%"
+                               variant="filled" onChange={(event) => {
+                                   setSearchName(event.target.value)
+                                   setInputId('')
+                               }} />
                     <Stack gap="1rem" direction="row">
                         <Button variant="contained" onClick={() => {
                             updateAndSetRepositories(serverUrl, setRepositories)
