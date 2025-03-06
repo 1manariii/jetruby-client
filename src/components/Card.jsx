@@ -22,16 +22,13 @@ const cardStyle = {
 }
 
 const numberForCard = {
-    position: 'relative',
-    background: "#007cf3",
-    width: "50px",
-    height: "50px",
     display: "flex",
+    alignSelf: "flex-start",
+    padding: '8px',
+    borderBottom: '1px solid',
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: "25px",
-    right: "42%",
-    rotate: "315deg"
+    borderRadius: "8px",
 }
 
 const Card = ({repository}) => {
@@ -41,7 +38,7 @@ const Card = ({repository}) => {
             <div style={cardStyle}>
                 <span style={numberForCard}>№ {id}</span>
                 <Tooltip title="Нажмите, чтобы открыть репозиторий на GitHub">
-                    <a href={`https://github.com/${owner}/${name}`}><Chip label={name} color="secondary" variant="contained" /></a>
+                    <a href={`https://github.com/${owner}/${name}`}><Chip label={name} color="primary" variant="contained" /></a>
                 </Tooltip>
                 <Stack width="100%" alignItems="center" gap="1rem" justifyContent="space-between" flexDirection="row"><AccountBoxIcon /> {owner}</Stack>
                 <Stack width="100%" alignItems="center" gap="1rem" justifyContent="space-between" flexDirection="row"><StarIcon /> {stars}</Stack>
