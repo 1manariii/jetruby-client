@@ -32,16 +32,12 @@ const TitleGroup = ({serverUrl, setRepositories}) => {
 
     useEffect(() => {
         if (inputId.length > 0) {
-            console.log(inputId.length)
             getRepositoryByIdOrName(serverUrl, inputId, null, setRepositories)
         }
-        if (searchName.length > 0) {
-            getRepositoryByIdOrName(serverUrl, null, searchName, setRepositories)
-        }
-        if (searchName.length === 0 && inputId.length === 0) {
+        if (inputId.length === 0) {
             getAndSetRepositories(serverUrl, setRepositories)
         }
-    }, [inputId, searchName])
+    }, [inputId])
     return (
     <>
         <Tooltip title="Нажмите, чтобы вызвать окно разработчика">
@@ -69,19 +65,26 @@ const TitleGroup = ({serverUrl, setRepositories}) => {
                                    setInputId(event.target.value)
                                    setSearchName('')
                                }} />
-                    <TextField id="outlined-basic"
-                               label="Введите наименование!"
-                               value={searchName}
-                               type='search'
-                               width="70%"
-                               variant="filled" onChange={(event) => {
-                                   setSearchName(event.target.value)
-                                   setInputId('')
-                               }} />
                     <Stack gap="1rem" direction="row">
-                        <Button variant="contained" onClick={() => {
-                            updateAndSetRepositories(serverUrl, setRepositories)
-                            setOpen(false)
+                        <TextField id="outlined-basic"
+                                   label="Введите наименование!"
+                                   value={searchName}
+                                   type='search'
+                                   width="70%"
+                                   variant="filled" onChange={(event) => {
+                            setSearchName(event.target.value)
+                            setInputId('')
+                        }} />
+                        <Button variant="contained" onClick={async () => {
+                            await getRepositoryByIdOrName(serverUrl, null, searchName, setRepositories)
+                            await setOpen(false)
+                        }}>Найти</Button>
+                    </Stack>
+
+                    <Stack gap="1rem" direction="row">
+                        <Button variant="contained" onClick={async () => {
+                            await updateAndSetRepositories(serverUrl, setRepositories)
+                            await setOpen(false)
                         }}>Обновить</Button>
                         <Button variant="contained" onClick={() => {
                             setRepositories([])
